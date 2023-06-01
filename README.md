@@ -1,0 +1,2 @@
+# MalingaspringBoot-pos
+POS system
