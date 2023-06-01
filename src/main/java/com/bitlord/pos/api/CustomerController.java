@@ -1,6 +1,7 @@
 package com.bitlord.pos.api;
 
 
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping( "/api/v1/customers" )
 public class CustomerController { // Customer CRUD
 
+    @PostMapping
     public String createCustomer(){ return "createCustomer"; }
 
     public String updateCustomer(){ return "updateCustomer"; }
