@@ -3,6 +3,9 @@ package com.bitlord.pos.api;
 
 import com.bitlord.pos.db.Database;
 import com.bitlord.pos.dto.request.RequestCustomerDto;
+import com.bitlord.pos.util.StandardResponse;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -19,9 +22,11 @@ public class CustomerController { // Customer CRUD
     * */
 
     @PostMapping
-    public String createCustomer( @RequestBody RequestCustomerDto customerDto ) {
+    public ResponseEntity<StandardResponse> createCustomer(@RequestBody RequestCustomerDto customerDto ) {
 
-        return Database.createCustomr(customerDto).toString();
+        var saveData= Database.createCustomr( customerDto );
+
+        return new ResponseEntity<>(  new StandardResponse( 201, "cutomer saved!", saveData ),  HttpStatus.CREATED ) ;
     }
 
 
