@@ -29,20 +29,27 @@ public class CustomerController { // Customer CRUD
         return new ResponseEntity<>(  new StandardResponse( 201, "cutomer saved!", saveData ),  HttpStatus.CREATED ) ;
     }
 
-
-    @PutMapping
-    public String updateCustomer(){ return "updateCustomer"; }
-
-    @DeleteMapping
-    public String deleteCustomer(){ return "deleteCustomer"; }
-
-
     @GetMapping( "/{id}" )
     public ResponseEntity<StandardResponse> findCustomer (@PathVariable int id) throws ClassNotFoundException {
 
         return new ResponseEntity<>( new StandardResponse( 200, "customer Data!", Database.findCustomer(id)), HttpStatus.OK );
     }
 
+
+    @PutMapping(params = "id")
+    public ResponseEntity<StandardResponse> updateCustomer( @RequestParam int id,  @RequestBody RequestCustomerDto customerDto ) throws ClassNotFoundException {
+
+        var savedData = Database.updateCustomer(customerDto,id);
+
+        return new ResponseEntity<>(
+                new StandardResponse(201,"customer Updated!",savedData),
+                HttpStatus.CREATED
+        );
+
+    }
+
+    @DeleteMapping
+    public String deleteCustomer(){ return "deleteCustomer"; }
 
     @GetMapping  ("/list" )
     public String getAllCustomers(){ return "getAllCustomers"; }
