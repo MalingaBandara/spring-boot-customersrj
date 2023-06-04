@@ -36,8 +36,13 @@ public class CustomerController { // Customer CRUD
     @DeleteMapping
     public String deleteCustomer(){ return "deleteCustomer"; }
 
-    @GetMapping
-    public String findCustomer(){ return "findCustomer"; }
+
+    @GetMapping( "/{id}" )
+    public ResponseEntity<StandardResponse> findCustomer (@PathVariable int id) throws ClassNotFoundException {
+
+        return new ResponseEntity<>( new StandardResponse( 200, "customer Data!", Database.findCustomer(id)), HttpStatus.OK );
+    }
+
 
     @GetMapping  ("/list" )
     public String getAllCustomers(){ return "getAllCustomers"; }

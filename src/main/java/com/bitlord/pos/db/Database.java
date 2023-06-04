@@ -5,11 +5,13 @@ import com.bitlord.pos.dto.request.RequestCustomerDto;
 import com.bitlord.pos.dto.response.ResponseCustomerDto;
 
 import java.util.ArrayList;
+import java.util.Optional;
 import java.util.Random;
 
 public class Database {
 
     public static ArrayList<CustomerDto> customerTable =  new ArrayList<>();
+
 
     public static ResponseCustomerDto createCustomr(RequestCustomerDto dto ) {
 
@@ -36,6 +38,25 @@ public class Database {
                 customerDto.isActiveState()
         );
     }
+
+
+    public static ResponseCustomerDto findCustomer ( int id ) throws ClassNotFoundException {
+
+        Optional<CustomerDto> selectedCustomer = customerTable.stream().filter( e -> e.getPublicId() == id ).findFirst();
+
+
+        if (selectedCustomer.isPresent()){
+            return new ResponseCustomerDto(
+                    selectedCustomer.get().getPublicId(),
+                    selectedCustomer.get().getName(),
+                    selectedCustomer.get().getAddress(),
+                    selectedCustomer.get().getSalary(),
+                    selectedCustomer.get().isActiveState()
+            );
+        }
+        throw new ClassNotFoundException();
+    }
+
 
 
 }
