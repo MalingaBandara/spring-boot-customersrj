@@ -79,5 +79,17 @@ public class Database {
         throw new ClassNotFoundException();
     }
 
+    public static void deleteCustomer(int id) throws ClassNotFoundException {
+
+        Optional<CustomerDto> selectedCustomer = customerTable.stream().filter( e-> e.getPublicId() == id ).findFirst();
+
+        if (selectedCustomer.isPresent()){
+
+            customerTable.remove(selectedCustomer.get());
+            return;
+
+        }
+        throw new ClassNotFoundException();
+    }
 }
 
