@@ -3,8 +3,10 @@ package com.bitlord.pos.db;
 import com.bitlord.pos.dto.core.CustomerDto;
 import com.bitlord.pos.dto.request.RequestCustomerDto;
 import com.bitlord.pos.dto.response.ResponseCustomerDto;
+import com.bitlord.pos.dto.response.paginated.model.CustomerPaginatedDto;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.util.Random;
 
@@ -90,6 +92,24 @@ public class Database {
 
         }
         throw new ClassNotFoundException();
+    }
+
+
+    public static CustomerPaginatedDto searchAllCustomers(int page, int size, String searchText) {
+
+        List<ResponseCustomerDto> list = new ArrayList<>();
+
+            for (CustomerDto d: customerTable) {
+                    list.add(new ResponseCustomerDto(
+                            d.getPublicId(),
+                            d.getName(),
+                            d.getAddress(),
+                            d.getSalary(),
+                            d.isActiveState()
+                    ));
+            }
+
+        return new CustomerPaginatedDto(customerTable.size(),list);
     }
 }
 

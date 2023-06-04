@@ -58,7 +58,10 @@ public class CustomerController { // Customer CRUD
     }
 
 
-    @GetMapping  ("/list" )
-    public String getAllCustomers(){ return "getAllCustomers"; }
+    @GetMapping(value = "/list", params = { "page","size","searchText" } )
+    public ResponseEntity<StandardResponse> getAllCustomers( @RequestParam int page, @RequestParam int size, @RequestParam String searchText ) {
+
+        return new ResponseEntity<>( new StandardResponse(200,"customer list" ,Database.searchAllCustomers( page, size, searchText ) ), HttpStatus.OK );
+    }
 
 }
