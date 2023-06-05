@@ -9,6 +9,8 @@ import com.bitlord.pos.entity.Customer;
 import com.bitlord.pos.repo.CustomerRepo;
 import com.bitlord.pos.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -119,11 +121,16 @@ public class CustomerServiceImpl implements CustomerService {
     @Override
     public CustomerPaginatedDto searchAllCustomers(int page, int size, String searchText) {
 
-        List<Customer> customers = customerRepo.findAll(); // get customers
+        /* Page<Customer> customers = customerRepo.findAll(PageRequest.of( page, size )); // get customers */
+
+         Page<Customer> customers = customerRepo.searchAllByAddressOrName( searchText, PageRequest.of( page, size )); // get customers
+
 
             List<ResponseCustomerDto> list = new ArrayList<>(); // create array list of customer dto to response
 
-        long recordCount = customerRepo.count(); // get count of repos
+
+       /* long recordCount = customerRepo.count(); // get count of repos */
+        long recordCount = customerRepo.countDataWithSearhText( searchText );
 
             for ( Customer d: customers ) { // assign customers to the response list
                     list.add(new ResponseCustomerDto(
@@ -136,8 +143,6 @@ public class CustomerServiceImpl implements CustomerService {
             }
 
         return new CustomerPaginatedDto( recordCount , list ); // output / response
-
-
 
     }
 }
