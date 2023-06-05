@@ -84,8 +84,27 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
-    public ResponseCustomerDto updateCustomer(RequestCustomerDto dto, long id) {
-        return null;
+    public ResponseCustomerDto updateCustomer(RequestCustomerDto dto, long id) throws ClassNotFoundException {
+
+        Optional<Customer> selectedCustomer = customerRepo.findByPublicId(id); // catch the customer
+
+                if ( selectedCustomer.isEmpty() ) throw new ClassNotFoundException(); // check the customer
+
+           // update details
+            selectedCustomer.get().setName( dto.getName() );
+            selectedCustomer.get().setAddress( dto.getAddress() );
+            selectedCustomer.get().setSalary( dto.getSalary() );
+
+        customerRepo.save( selectedCustomer.get() ); // save
+
+        return new ResponseCustomerDto( // return a response
+                selectedCustomer.get().getPublicId(),
+                selectedCustomer.get().getName(),
+                selectedCustomer.get().getAddress(),
+                selectedCustomer.get().getSalary(),
+                selectedCustomer.get().isActiveState()
+        );
+
     }
 
     @Override
