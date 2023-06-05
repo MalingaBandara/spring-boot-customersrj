@@ -17,8 +17,10 @@ public class Customer {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column( unique = true )
     private long id;
 
+    @Column( unique = true, nullable = false )
     private long publicId;
 
     private String name;

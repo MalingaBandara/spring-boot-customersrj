@@ -8,7 +8,7 @@ public interface CustomerService {
 
     public ResponseCustomerDto createCustomer(RequestCustomerDto dto);
 
-    public ResponseCustomerDto findCustomer(long id);
+    public ResponseCustomerDto findCustomer(long id) throws ClassNotFoundException;
 
     public ResponseCustomerDto updateCustomer(RequestCustomerDto dto, long id);
 

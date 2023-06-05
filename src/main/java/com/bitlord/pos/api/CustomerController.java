@@ -46,10 +46,11 @@ public class CustomerController { // Customer CRUD
         return new ResponseEntity<>(  new StandardResponse( 201, "cutomer saved!", savedData ),  HttpStatus.CREATED ) ;
     }
 
+
     @GetMapping( "/{id}" )
     public ResponseEntity<StandardResponse> findCustomer (@PathVariable int id) throws ClassNotFoundException {
 
-        return new ResponseEntity<>( new StandardResponse( 200, "customer Data!", Database.findCustomer(id)), HttpStatus.OK );
+        return new ResponseEntity<>( new StandardResponse( 200, "customer Data!", customerService.findCustomer(id)), HttpStatus.OK );
     }
 
 
