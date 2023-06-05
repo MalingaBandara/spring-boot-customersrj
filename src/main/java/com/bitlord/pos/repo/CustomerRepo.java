@@ -19,4 +19,7 @@ public interface CustomerRepo extends JpaRepository< Customer,Long> {
     public Optional< Customer > findByPublicId( long id ); // find customer by Public ID
 
 
+    public void deleteByPublicId( long id ); // delete customer
+
+
 }

@@ -1,7 +1,6 @@
 package com.bitlord.pos.api;
 
 
-import com.bitlord.pos.db.Database;
 import com.bitlord.pos.dto.request.RequestCustomerDto;
 import com.bitlord.pos.service.CustomerService;
 import com.bitlord.pos.util.StandardResponse;
@@ -19,7 +18,6 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @RequestMapping( "/api/v1/customers" )
 public class CustomerController { // Customer CRUD
-
 
     private final CustomerService customerService;
 
@@ -41,9 +39,7 @@ public class CustomerController { // Customer CRUD
     @PostMapping
     public ResponseEntity<StandardResponse> createCustomer(@RequestBody RequestCustomerDto customerDto ) {
 
-        var savedData = customerService.createCustomer(customerDto);
-
-        return new ResponseEntity<>(  new StandardResponse( 201, "cutomer saved!", savedData ),  HttpStatus.CREATED ) ;
+        return new ResponseEntity<>(  new StandardResponse( 201, "cutomer saved!", customerService.createCustomer(customerDto) ),  HttpStatus.CREATED ) ;
     }
 
 
@@ -57,11 +53,8 @@ public class CustomerController { // Customer CRUD
     @PutMapping(params = "id")
     public ResponseEntity<StandardResponse> updateCustomer( @RequestParam int id,  @RequestBody RequestCustomerDto customerDto ) throws ClassNotFoundException {
 
-        var savedData = Database.updateCustomer(customerDto,id);
-
         return new ResponseEntity<>(
-                new StandardResponse(201,"customer Updated!",savedData),
-                HttpStatus.CREATED
+                new StandardResponse(201,"customer Updated!", customerService.updateCustomer( customerDto, id )), HttpStatus.CREATED
         );
 
     }
@@ -70,7 +63,7 @@ public class CustomerController { // Customer CRUD
     @DeleteMapping(params = "id")
     public ResponseEntity<StandardResponse> deleteCustomer( @RequestParam int id ) throws ClassNotFoundException {
 
-        Database.deleteCustomer(id);
+        customerService.deleteCustomer(id);
 
         return new ResponseEntity<>( new StandardResponse(204,"customer Deleted!",null), HttpStatus.NO_CONTENT );
     }
@@ -79,7 +72,7 @@ public class CustomerController { // Customer CRUD
     @GetMapping(value = "/list", params = { "page","size","searchText" } )
     public ResponseEntity<StandardResponse> getAllCustomers( @RequestParam int page, @RequestParam int size, @RequestParam String searchText )  {
 
-        return new ResponseEntity<>( new StandardResponse(200,"customer list" ,Database.searchAllCustomers( page, size, searchText ) ), HttpStatus.OK );
+        return new ResponseEntity<>( new StandardResponse(200,"customer list" ,customerService.searchAllCustomers( page, size, searchText ) ), HttpStatus.OK );
     }
 
 }
