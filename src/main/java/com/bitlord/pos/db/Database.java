@@ -8,38 +8,10 @@ import com.bitlord.pos.dto.response.paginated.model.CustomerPaginatedDto;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 
 public class Database {
 
     public static ArrayList<CustomerDto> customerTable =  new ArrayList<>();
-
-
-    public static ResponseCustomerDto createCustomr(RequestCustomerDto dto ) {
-
-        CustomerDto customerDto = new CustomerDto(
-                new Random().nextInt(100001),
-                new Random().nextInt(100001),
-                dto.getName(),
-                dto.getAddress(),
-                dto.getSalary(),
-                true,
-                null,
-                null,
-                null,
-                null
-        );
-
-        customerTable.add(customerDto);
-
-        return new ResponseCustomerDto(
-                customerDto.getPublicId(),
-                dto.getName(),
-                dto.getAddress(),
-                dto.getSalary(),
-                customerDto.isActiveState()
-        );
-    }
 
 
     public static ResponseCustomerDto findCustomer ( int id ) throws ClassNotFoundException {
@@ -60,7 +32,7 @@ public class Database {
     }
 
 
-    public static ResponseCustomerDto updateCustomer( RequestCustomerDto dto, int id ) throws ClassNotFoundException {
+     public static ResponseCustomerDto updateCustomer( RequestCustomerDto dto, int id ) throws ClassNotFoundException {
 
         Optional<CustomerDto> selectedCustomer =  customerTable.stream().filter( e-> e.getPublicId() == id ).findFirst();
 
