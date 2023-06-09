@@ -8,6 +8,7 @@ import com.bitlord.pos.dto.response.paginated.model.CustomerPaginatedDto;
 import com.bitlord.pos.entity.Customer;
 import com.bitlord.pos.repo.CustomerRepo;
 import com.bitlord.pos.service.CustomerService;
+import com.bitlord.pos.util.mapper.CustomerMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -25,9 +26,12 @@ public class CustomerServiceImpl implements CustomerService {
 
     private final CustomerRepo customerRepo;
 
+    private final CustomerMapper customerMapper;
+
     @Autowired
-    public CustomerServiceImpl(CustomerRepo customerRepo) {
+    public CustomerServiceImpl(CustomerRepo customerRepo, CustomerMapper customerMapper )  {
         this.customerRepo = customerRepo;
+        this.customerMapper = customerMapper;
     }
 
 
@@ -47,7 +51,7 @@ public class CustomerServiceImpl implements CustomerService {
                 null
         );
 
-        Customer customer = new Customer(
+        /*Customer customer = new Customer(
                 0,
                 customerDto.getPublicId(),
                 customerDto.getName(),
@@ -57,7 +61,9 @@ public class CustomerServiceImpl implements CustomerService {
                 null
         );
 
-        customerRepo.save(customer);
+        customerRepo.save(customer);*/
+
+        customerRepo.save( customerMapper.toCustomer( customerDto ) );
 
         return new ResponseCustomerDto(
                 customerDto.getPublicId(),
