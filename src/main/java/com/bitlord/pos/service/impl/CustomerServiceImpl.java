@@ -80,13 +80,16 @@ public class CustomerServiceImpl implements CustomerService {
         Optional< Customer > selectedCustomer = customerRepo.findByPublicId( id );
 
         if ( selectedCustomer.isPresent() ) {
-            return new ResponseCustomerDto(
+
+            return  customerMapper.toResponseCustomerDto( selectedCustomer.get() );
+
+           /* return new ResponseCustomerDto(
                     selectedCustomer.get().getPublicId(),
                     selectedCustomer.get().getName(),
                     selectedCustomer.get().getAddress(),
                     selectedCustomer.get().getSalary(),
                     selectedCustomer.get().isActiveState()
-            );
+            );*/
         }
 
         // customerRepo.findById( id );
@@ -107,13 +110,15 @@ public class CustomerServiceImpl implements CustomerService {
 
         customerRepo.save( selectedCustomer.get() ); // save
 
-        return new ResponseCustomerDto( // return a response
+        return customerMapper.toResponseCustomerDto( selectedCustomer.get() );
+
+       /* return new ResponseCustomerDto( // return a response
                 selectedCustomer.get().getPublicId(),
                 selectedCustomer.get().getName(),
                 selectedCustomer.get().getAddress(),
                 selectedCustomer.get().getSalary(),
                 selectedCustomer.get().isActiveState()
-        );
+        );*/
 
     }
 
