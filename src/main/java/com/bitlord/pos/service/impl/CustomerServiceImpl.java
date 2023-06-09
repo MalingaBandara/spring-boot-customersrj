@@ -136,14 +136,15 @@ public class CustomerServiceImpl implements CustomerService {
 
          Page<Customer> customers = customerRepo.searchAllByAddressOrName( searchText, PageRequest.of( page, size )); // get customers
 
+        List< ResponseCustomerDto > list = customerMapper.toResponseCustomerDtoList( customers );
 
+            /*
             List<ResponseCustomerDto> list = new ArrayList<>(); // create array list of customer dto to response
+        long recordCount = customerRepo.count(); // get count of repos */
 
-
-       /* long recordCount = customerRepo.count(); // get count of repos */
         long recordCount = customerRepo.countDataWithSearhText( searchText );
 
-            for ( Customer d: customers ) { // assign customers to the response list
+            /*for ( Customer d: customers ) { // assign customers to the response list
                     list.add(new ResponseCustomerDto(
                             d.getPublicId(),
                             d.getName(),
@@ -151,7 +152,7 @@ public class CustomerServiceImpl implements CustomerService {
                             d.getSalary(),
                             d.isActiveState()
                     ));
-            }
+            }*/
 
         return new CustomerPaginatedDto( recordCount , list ); // output / response
 
