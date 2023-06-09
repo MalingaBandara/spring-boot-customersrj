@@ -44,7 +44,7 @@ public class CustomerController { // Customer CRUD
 
 
     @GetMapping( "/{id}" )
-    public ResponseEntity<StandardResponse> findCustomer (@PathVariable int id) throws ClassNotFoundException {
+    public ResponseEntity<StandardResponse> findCustomer (@PathVariable int id) {
 
         return new ResponseEntity<>( new StandardResponse( 200, "customer Data!", customerService.findCustomer(id)), HttpStatus.OK );
     }

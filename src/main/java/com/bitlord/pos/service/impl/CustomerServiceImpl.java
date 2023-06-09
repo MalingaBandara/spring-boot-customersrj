@@ -6,6 +6,7 @@ import com.bitlord.pos.dto.request.RequestCustomerDto;
 import com.bitlord.pos.dto.response.ResponseCustomerDto;
 import com.bitlord.pos.dto.response.paginated.model.CustomerPaginatedDto;
 import com.bitlord.pos.entity.Customer;
+import com.bitlord.pos.exception.EntryNotFoundException;
 import com.bitlord.pos.repo.CustomerRepo;
 import com.bitlord.pos.service.CustomerService;
 import com.bitlord.pos.util.mapper.CustomerMapper;
@@ -63,19 +64,23 @@ public class CustomerServiceImpl implements CustomerService {
 
         customerRepo.save(customer);*/
 
-        customerRepo.save( customerMapper.toCustomer( customerDto ) );
+        Customer customer = customerMapper.toCustomer(customerDto);
 
-        return new ResponseCustomerDto(
+        customerRepo.save( customer );
+
+        return customerMapper.toResponseCustomerDto( customer );
+
+        /*return new ResponseCustomerDto(
                 customerDto.getPublicId(),
                 customerDto.getName(),
                 customerDto.getAddress(),
                 customerDto.getSalary(),
                 customerDto.isActiveState()
-        );
+        );*/
     }
 
     @Override
-    public ResponseCustomerDto findCustomer(long id) throws ClassNotFoundException {
+    public ResponseCustomerDto findCustomer(long id) {
 
         Optional< Customer > selectedCustomer = customerRepo.findByPublicId( id );
 
@@ -93,7 +98,7 @@ public class CustomerServiceImpl implements CustomerService {
         }
 
         // customerRepo.findById( id );
-        throw  new ClassNotFoundException();
+        throw  new EntryNotFoundException( "Hoyaganna Bariyoooo...!!" );
     }
 
     @Override
@@ -153,6 +158,7 @@ public class CustomerServiceImpl implements CustomerService {
                             d.isActiveState()
                     ));
             }*/
+
 
         return new CustomerPaginatedDto( recordCount , list ); // output / response
 
