@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping( "/api/v1/customers" )
+@CrossOrigin
 public class CustomerController { // Customer CRUD
 
     private final CustomerService customerService;
