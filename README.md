@@ -1,2 +1,3 @@
-# MalingaspringBoot-pos
+# springBoot-pos System
 POS system
+
