@@ -74,7 +74,6 @@
           <element id="library" level="project" name="Maven: io.springfox:springfox-schema:2.9.2" />
           <element id="library" level="project" name="Maven: io.springfox:springfox-swagger-common:2.9.2" />
           <element id="library" level="project" name="Maven: io.springfox:springfox-spring-web:2.9.2" />
-          <element id="library" level="project" name="Maven: com.google.guava:guava:20.0" />
           <element id="library" level="project" name="Maven: com.fasterxml:classmate:1.5.1" />
           <element id="library" level="project" name="Maven: org.slf4j:slf4j-api:1.7.36" />
           <element id="library" level="project" name="Maven: org.springframework.plugin:spring-plugin-core:1.2.0.RELEASE" />
@@ -88,6 +87,13 @@
           <element id="library" level="project" name="Maven: org.springframework.security:spring-security-core:5.7.8" />
           <element id="library" level="project" name="Maven: org.springframework.security:spring-security-crypto:5.7.8" />
           <element id="library" level="project" name="Maven: org.springframework.security:spring-security-web:5.7.8" />
+          <element id="library" level="project" name="Maven: com.google.guava:guava:32.0.1-jre" />
+          <element id="library" level="project" name="Maven: com.google.guava:failureaccess:1.0.1" />
+          <element id="library" level="project" name="Maven: com.google.guava:listenablefuture:9999.0-empty-to-avoid-conflict-with-guava" />
+          <element id="library" level="project" name="Maven: com.google.code.findbugs:jsr305:3.0.2" />
+          <element id="library" level="project" name="Maven: org.checkerframework:checker-qual:3.33.0" />
+          <element id="library" level="project" name="Maven: com.google.errorprone:error_prone_annotations:2.18.0" />
+          <element id="library" level="project" name="Maven: com.google.j2objc:j2objc-annotations:2.8" />
         </element>
       </element>
       <element id="directory" name="META-INF">
