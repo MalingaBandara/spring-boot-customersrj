@@ -150,5 +150,6 @@
     <orderEntry type="library" name="Maven: org.checkerframework:checker-qual:3.33.0" level="project" />
     <orderEntry type="library" name="Maven: com.google.errorprone:error_prone_annotations:2.18.0" level="project" />
     <orderEntry type="library" name="Maven: com.google.j2objc:j2objc-annotations:2.8" level="project" />
+    <orderEntry type="library" name="Maven: io.jsonwebtoken:jjwt-api:0.11.5" level="project" />
   </component>
 </module>

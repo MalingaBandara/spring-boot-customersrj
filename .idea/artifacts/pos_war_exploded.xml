@@ -94,6 +94,7 @@
           <element id="library" level="project" name="Maven: org.checkerframework:checker-qual:3.33.0" />
           <element id="library" level="project" name="Maven: com.google.errorprone:error_prone_annotations:2.18.0" />
           <element id="library" level="project" name="Maven: com.google.j2objc:j2objc-annotations:2.8" />
+          <element id="library" level="project" name="Maven: io.jsonwebtoken:jjwt-api:0.11.5" />
         </element>
       </element>
       <element id="directory" name="META-INF">
