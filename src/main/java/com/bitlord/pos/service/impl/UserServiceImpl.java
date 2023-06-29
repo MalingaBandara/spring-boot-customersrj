@@ -2,8 +2,11 @@ package com.bitlord.pos.service.impl;
 
 import com.bitlord.pos.dto.core.UserDto;
 import com.bitlord.pos.dto.request.RequestUserDto;
+import com.bitlord.pos.entity.User;
+import com.bitlord.pos.entity.UserRoleHasUser;
 import com.bitlord.pos.exception.EntryNotFoundException;
 import com.bitlord.pos.repo.UserRepo;
+import com.bitlord.pos.repo.UserRoleHasUserRepo;
 import com.bitlord.pos.repo.UserRoleRepo;
 import com.bitlord.pos.service.UserService;
 import com.bitlord.pos.util.mapper.UserMapper;
@@ -23,12 +26,15 @@ public class UserServiceImpl implements UserService {
 
     private final UserMapper userMapper; // add user mapper
 
+    private final UserRoleHasUserRepo userRoleHasUserRepo;
+
 
     @Autowired
-    public UserServiceImpl(UserRepo userRepo, UserRoleRepo userRoleRepo, UserMapper userMapper) {
+    public UserServiceImpl(UserRepo userRepo, UserRoleRepo userRoleRepo, UserMapper userMapper, UserRoleHasUserRepo userRoleHasUserRepo) {
         this.userRepo = userRepo;
         this.userRoleRepo = userRoleRepo;
         this.userMapper = userMapper;
+        this.userRoleHasUserRepo = userRoleHasUserRepo;
     }
 
 
@@ -45,10 +51,19 @@ public class UserServiceImpl implements UserService {
                 throw new EntryNotFoundException( "User email already exists" );
             }
 
-        // create user dto for save user in db
-        UserDto userDto = new UserDto( String.valueOf( new Random().nextInt(1001) ), dto.getEmail(), dto.getFullName(), dto.getPassword() );
+                // create user dto for save user in db
+                UserDto userDto = new UserDto( String.valueOf( new Random().nextInt(1001) ), dto.getEmail(), dto.getFullName(), dto.getPassword() );
 
-        userRepo.save( userMapper.toUser( userDto ) ); // save dto
+                User user  = userMapper.toUser( userDto ); // get user data from dto
+
+                        userRepo.save( user ); // save dto
+
+                UserRoleHasUser userRoleHasUser = new UserRoleHasUser(); // crete UserRoleHasUser object
+                    // set data to UserRoleHasUser object
+                    userRoleHasUser.setUser( user );
+                    userRoleHasUser.setUserRole( selectedUserRole.get() );
+
+                userRoleHasUserRepo.save( userRoleHasUser ); // save UserRoleHasUser
 
     }
 
