@@ -11,7 +11,9 @@ import com.bitlord.pos.repo.UserRoleRepo;
 import com.bitlord.pos.service.UserService;
 import com.bitlord.pos.util.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 
 import javax.transaction.Transactional;
 import java.util.Random;
@@ -28,13 +30,16 @@ public class UserServiceImpl implements UserService {
 
     private final UserRoleHasUserRepo userRoleHasUserRepo;
 
+    private final PasswordEncoder passwordEncoder; // password encoder
+
 
     @Autowired
-    public UserServiceImpl(UserRepo userRepo, UserRoleRepo userRoleRepo, UserMapper userMapper, UserRoleHasUserRepo userRoleHasUserRepo) {
+    public UserServiceImpl(UserRepo userRepo, UserRoleRepo userRoleRepo, UserMapper userMapper, UserRoleHasUserRepo userRoleHasUserRepo, PasswordEncoder passwordEncoder) {
         this.userRepo = userRepo;
         this.userRoleRepo = userRoleRepo;
         this.userMapper = userMapper;
         this.userRoleHasUserRepo = userRoleHasUserRepo;
+        this.passwordEncoder = passwordEncoder;
     }
 
 
@@ -52,7 +57,7 @@ public class UserServiceImpl implements UserService {
             }
 
                 // create user dto for save user in db
-                UserDto userDto = new UserDto( String.valueOf( new Random().nextInt(1001) ), dto.getEmail(), dto.getFullName(), dto.getPassword() );
+                UserDto userDto = new UserDto( String.valueOf( new Random().nextInt(1001) ), dto.getEmail(), dto.getFullName(), passwordEncoder.encode( dto.getPassword() ) );
 
                 User user  = userMapper.toUser( userDto ); // get user data from dto
 
