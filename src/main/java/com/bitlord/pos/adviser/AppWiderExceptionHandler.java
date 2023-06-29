@@ -1,5 +1,6 @@
 package com.bitlord.pos.adviser;
 
+import com.bitlord.pos.exception.DuplicateEntryException;
 import com.bitlord.pos.exception.EntryNotFoundException;
 import com.bitlord.pos.util.StandardResponse;
 import org.springframework.http.HttpStatus;
@@ -15,6 +16,15 @@ public class AppWiderExceptionHandler {
 
         return new ResponseEntity<>(
                 new StandardResponse( 404, e.getMessage(), e ), HttpStatus.NOT_FOUND
+        );
+
+    }
+
+    @ExceptionHandler( DuplicateEntryException.class )
+    public ResponseEntity< StandardResponse > handleDuplicateEntryException ( EntryNotFoundException e) {
+
+        return new ResponseEntity<>(
+                new StandardResponse( 409, e.getMessage(), e ), HttpStatus.CONFLICT
         );
 
     }
