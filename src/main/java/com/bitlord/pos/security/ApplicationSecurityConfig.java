@@ -1,5 +1,8 @@
 package com.bitlord.pos.security;
 
+import com.bitlord.pos.jwt.JwtConfig;
+import com.bitlord.pos.jwt.JwtTokenVerifier;
+import com.bitlord.pos.jwt.JwtUsernameAndPasswordAuthenticationFilter;
 import com.bitlord.pos.service.impl.ApplicationUserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -13,6 +16,7 @@ import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 
+import javax.crypto.SecretKey;
 import java.util.List;
 
 
@@ -21,11 +25,15 @@ import java.util.List;
 public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final PasswordEncoder passwordEncoder;
+    private final JwtConfig jwtConfig;
+    private final SecretKey secretKey;
     private final ApplicationUserServiceImpl applicationUserService;
 
     @Autowired
-    public ApplicationSecurityConfig(PasswordEncoder passwordEncoder, ApplicationUserServiceImpl applicationUserService) {
+    public ApplicationSecurityConfig(PasswordEncoder passwordEncoder, JwtConfig jwtConfig, SecretKey secretKey, ApplicationUserServiceImpl applicationUserService) {
         this.passwordEncoder = passwordEncoder;
+        this.jwtConfig = jwtConfig;
+        this.secretKey = secretKey;
         this.applicationUserService = applicationUserService;
     }
 
@@ -48,6 +56,8 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement()
                 .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
+                .addFilter( new JwtUsernameAndPasswordAuthenticationFilter( authenticationManager(), jwtConfig, secretKey ) )
+                .addFilterAfter( new JwtTokenVerifier( jwtConfig, secretKey ), JwtUsernameAndPasswordAuthenticationFilter.class )
                 .authorizeRequests()
                 .antMatchers(
                         "/api/v1/user/register/**"
