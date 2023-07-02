@@ -3,6 +3,7 @@ package com.bitlord.pos.security;
 import com.bitlord.pos.jwt.JwtConfig;
 import com.bitlord.pos.jwt.JwtTokenVerifier;
 import com.bitlord.pos.jwt.JwtUsernameAndPasswordAuthenticationFilter;
+import com.bitlord.pos.service.UserService;
 import com.bitlord.pos.service.impl.ApplicationUserServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -27,16 +28,20 @@ import java.util.List;
 public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
 
     private final PasswordEncoder passwordEncoder;
-    private final JwtConfig jwtConfig;
-    private final SecretKey secretKey;
     private final ApplicationUserServiceImpl applicationUserService;
 
+    private final UserService userService;
+
+    private final JwtConfig jwtConfig;
+    private final SecretKey secretKey;
+
     @Autowired
-    public ApplicationSecurityConfig(PasswordEncoder passwordEncoder, JwtConfig jwtConfig, SecretKey secretKey, ApplicationUserServiceImpl applicationUserService) {
+    public ApplicationSecurityConfig(PasswordEncoder passwordEncoder, JwtConfig jwtConfig, SecretKey secretKey, ApplicationUserServiceImpl applicationUserService, UserService userService) {
         this.passwordEncoder = passwordEncoder;
         this.jwtConfig = jwtConfig;
         this.secretKey = secretKey;
         this.applicationUserService = applicationUserService;
+        this.userService = userService;
     }
 
     @Override
@@ -46,7 +51,7 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
         corsConfiguration.setAllowedHeaders(List.of("Authorization", "Cache-Control", "Content-Type"));
         corsConfiguration.setAllowedOrigins(List.of("*"));
-        corsConfiguration.setAllowedMethods(List.of("DELETE", "GET", "PUT", "POST", "PATCH", "OPTION"));
+        corsConfiguration.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "PUT","OPTIONS","PATCH", "DELETE"));
         corsConfiguration.setAllowCredentials(false);
         corsConfiguration.setExposedHeaders(List.of("Authorization"));
 
@@ -62,11 +67,10 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
                 .addFilterAfter( new JwtTokenVerifier( jwtConfig, secretKey ), JwtUsernameAndPasswordAuthenticationFilter.class )
                 .authorizeRequests()
                 .antMatchers(
-                        "/api/v1/user/register/**"
-                ).permitAll()
+                        "/api/v1/user/**")
+                .permitAll()
                 .anyRequest()
-                .permitAll();
-
+                .authenticated();
     }
 
     @Override
@@ -84,4 +88,26 @@ public class ApplicationSecurityConfig extends WebSecurityConfigurerAdapter {
         return provider;
     }
 
+    /*    @Override
+    @Bean
+    protected UserDetailsService userDetailsService() {
+        UserDetails annaSmithUser =
+                User.builder().username("anna")
+                        .password(passwordEncoder.encode("1234"))
+                        //             .roles(ApplicationUserRole.STUDENT.name()) // ROLE_STUDENT
+                        .authorities(STUDENT.getGrantedAuthorities())
+                        .build();
+        UserDetails lindaUser = User.builder().username("linda")
+                .password(passwordEncoder.encode("1234"))
+                //   .roles(ApplicationUserRole.ADMIN.name()) // ROLE_ADMIN
+                .authorities(ADMIN.getGrantedAuthorities())
+                .build();
+        UserDetails tomUser = User.builder().username("tom")
+                .password(passwordEncoder.encode("1234"))
+                //.roles(ApplicationUserRole.ADMINTRANEE.name()) // ROLE_ADMINTRANEE
+                .authorities(ADMINTRANEE.getGrantedAuthorities())
+                .build();
+
+        return new InMemoryUserDetailsManager(annaSmithUser, lindaUser, tomUser);
+    }*/
 }

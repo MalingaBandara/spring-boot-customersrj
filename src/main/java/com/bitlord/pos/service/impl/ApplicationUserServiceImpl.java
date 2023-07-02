@@ -31,38 +31,38 @@ public class ApplicationUserServiceImpl implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-        var selectedUser = userRepo.findUserByEmail(username);
+        var byUsername = userRepo.findUserByEmail(username);
 
-        if (selectedUser.isEmpty()) {
+        if (byUsername.isEmpty()) {
             throw new UsernameNotFoundException(
-                    String.format("username %s not found", username)
-            );
+                    String.format("username %s not found", username));
         }
 
-        List<UserRoleHasUser> userRoles = userRoleHasUserRepo.findByUserId(selectedUser.get().getUserId()); // get all user role in particular user
+        List<UserRoleHasUser> userRoles = userRoleHasUserRepo.findByUserId(byUsername.get().getUserId()); // get all user role in particular user
 
         Set<SimpleGrantedAuthority> grantedAuthorities = new HashSet<>(); // create ApplicationUserRole grantedAuthorities object
 
             for (UserRoleHasUser uRole : userRoles) {
 
-                if (uRole.getUserRole().equals("USER")) {
-                    grantedAuthorities.addAll(USER.getSimpleGrantedAuthorities());
+                if (uRole.getUserRole().getRoleName().equals("USER")) {
+                    grantedAuthorities.addAll(USER.getGrantedAuthorities());
                 }
-                if (uRole.getUserRole().equals("ADMIN")) {
-                    grantedAuthorities.addAll(ADMIN.getSimpleGrantedAuthorities());
+                if (uRole.getUserRole().getRoleName().equals("ADMIN")) {
+                    grantedAuthorities.addAll(ADMIN.getGrantedAuthorities());
                 }
-                if (uRole.getUserRole().equals("MANAGER")) {
-                    grantedAuthorities.addAll(MANAGER.getSimpleGrantedAuthorities());
+                if (uRole.getUserRole().getRoleName().equals("MANAGER")) {
+                    grantedAuthorities.addAll(MANAGER.getGrantedAuthorities());
                 }
             }
 
         ApplicationUser user = new ApplicationUser(
-                grantedAuthorities, selectedUser.get().getPassword(),
-                selectedUser.get().getEmail(),
-                selectedUser.get().isAccountNonExpired(),
-                selectedUser.get().isAccountNonLocked(),
-                selectedUser.get().isCredentialsNonExpired(),
-                selectedUser.get().isEnabled()
+                grantedAuthorities,
+                byUsername.get().getPassword(),
+                byUsername.get().getEmail(),
+                byUsername.get().isAccountNonExpired(),
+                byUsername.get().isAccountNonLocked(),
+                byUsername.get().isCredentialsNonExpired(),
+                byUsername.get().isEnabled()
         );
 
         return user;

@@ -8,7 +8,7 @@ import java.util.Set;
 
 public class ApplicationUser implements UserDetails {
 
-    private final Set<? extends GrantedAuthority> grantedAuthorities;
+    private final Set<? extends GrantedAuthority> getAuthorities;
     private final  String password;
     private final  String username;
     private final  boolean isAccountNonExpired;
@@ -16,11 +16,11 @@ public class ApplicationUser implements UserDetails {
     private final  boolean isCredentialsNonExpired;
     private final  boolean isEnabled;
 
-    public ApplicationUser(Set<? extends GrantedAuthority> grantedAuthorities,
+    public ApplicationUser(Set<? extends GrantedAuthority> getAuthorities,
                            String password, String username, boolean isAccountNonExpired,
                            boolean isAccountNonLocked,  boolean isCredentialsNonExpired, boolean isEnabled) {
 
-        this.grantedAuthorities = grantedAuthorities;
+        this.getAuthorities = getAuthorities;
         this.password = password;
         this.username = username;
         this.isAccountNonExpired = isAccountNonExpired;
@@ -31,7 +31,8 @@ public class ApplicationUser implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return grantedAuthorities;
+
+        return getAuthorities;
     }
 
     @Override

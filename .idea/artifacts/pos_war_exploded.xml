@@ -49,8 +49,6 @@
           <element id="library" level="project" name="Maven: org.slf4j:jul-to-slf4j:1.7.36" />
           <element id="library" level="project" name="Maven: org.yaml:snakeyaml:1.30" />
           <element id="library" level="project" name="Maven: org.springframework.boot:spring-boot-starter-json:2.7.12" />
-          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.13.5" />
-          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.13.5" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.datatype:jackson-datatype-jdk8:2.13.5" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.datatype:jackson-datatype-jsr310:2.13.5" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.module:jackson-module-parameter-names:2.13.5" />
@@ -95,6 +93,10 @@
           <element id="library" level="project" name="Maven: com.google.errorprone:error_prone_annotations:2.18.0" />
           <element id="library" level="project" name="Maven: com.google.j2objc:j2objc-annotations:2.8" />
           <element id="library" level="project" name="Maven: io.jsonwebtoken:jjwt-api:0.11.5" />
+          <element id="library" level="project" name="Maven: io.jsonwebtoken:jjwt-impl:0.11.5" />
+          <element id="library" level="project" name="Maven: io.jsonwebtoken:jjwt-jackson:0.11.5" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-databind:2.13.5" />
+          <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-core:2.13.5" />
         </element>
       </element>
       <element id="directory" name="META-INF">

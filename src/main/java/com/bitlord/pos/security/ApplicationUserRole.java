@@ -9,9 +9,14 @@ import java.util.stream.Collectors;
 public enum ApplicationUserRole {
 
     // user role enums
-    ADMIN(Sets.newHashSet()),
     USER(Sets.newHashSet()),
-    MANAGER(Sets.newHashSet());
+
+    STUDENT(Sets.newHashSet()),
+    ADMIN(Sets.newHashSet()),
+    MANAGER(Sets.newHashSet()),
+    DEVELOPER(Sets.newHashSet()),
+    COMPANY(Sets.newHashSet()),
+    LECTURER(Sets.newHashSet());
 
     private final Set<ApplicationUserPermission> permissions;
 
@@ -23,7 +28,7 @@ public enum ApplicationUserRole {
         return permissions;
     }
 
-    public Set<SimpleGrantedAuthority> getSimpleGrantedAuthorities(){
+    public Set<SimpleGrantedAuthority> getGrantedAuthorities(){
 
         Set<SimpleGrantedAuthority> permissions = getPermissions().stream()
                                                                             .map(permission-> new SimpleGrantedAuthority(permission.getPermission()))

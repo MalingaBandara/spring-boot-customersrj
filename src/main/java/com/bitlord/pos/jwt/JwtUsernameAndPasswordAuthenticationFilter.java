@@ -35,11 +35,12 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
     public Authentication attemptAuthentication( HttpServletRequest request, HttpServletResponse response ) throws AuthenticationException {
 
         try{
-            UsernamePasswordAuthenticationRequest authenticationRequest = new ObjectMapper().readValue( request.getInputStream(), UsernamePasswordAuthenticationRequest.class );
+            UsernameAndPasswordAuthenticationRequest authenticationRequest = new ObjectMapper().readValue( request.getInputStream(), UsernameAndPasswordAuthenticationRequest.class );
 
             Authentication authentication = new UsernamePasswordAuthenticationToken( authenticationRequest.getUsername(), authenticationRequest.getPassword() );
 
-            return authenticationManager.authenticate( authentication );
+            Authentication authenticate = authenticationManager.authenticate(authentication);
+            return authenticate;
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -58,7 +59,7 @@ public class JwtUsernameAndPasswordAuthenticationFilter extends UsernamePassword
                         .plusDays(jwtConfig.getTokenExpirationAfterDays())))
                 .signWith(secretKey).compact();
 
-        response.addHeader( jwtConfig.getAuthorizationHeader(), jwtConfig.getTokePrefix()+token );
+        response.addHeader( jwtConfig.getAuthorizationHeader(), jwtConfig.getTokenPrefix()+token );
 
     }
 }

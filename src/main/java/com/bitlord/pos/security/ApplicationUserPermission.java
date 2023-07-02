@@ -5,8 +5,9 @@ public enum ApplicationUserPermission {
     // Permission Enum
     CUSTOMER_READ("customer:read"),
     CUSTOMER_WRITE("customer:write"),
-    PRODUCT_READ("product:read"),
-    PRODUCT_WRITE("product:write");
+    ITEM_READ("item:read"),
+    ITEM_WRITE("item:write");
+
 
     private final String permission;
 

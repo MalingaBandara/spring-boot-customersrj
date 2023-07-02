@@ -39,7 +39,9 @@ public class JwtTokenVerifier  extends OncePerRequestFilter {
 
         String authorizationHeader =  request.getHeader( jwtConfig.getAuthorizationHeader() );
 
-                if ( Strings.isNullOrEmpty( authorizationHeader ) || !authorizationHeader.startsWith( jwtConfig.getTokePrefix() ) ) {
+        String to = authorizationHeader;
+
+                if ( Strings.isNullOrEmpty( authorizationHeader ) || !authorizationHeader.startsWith( jwtConfig.getTokenPrefix() ) ) {
 
                     filterChain.doFilter( request, response);
                     return;
@@ -47,7 +49,7 @@ public class JwtTokenVerifier  extends OncePerRequestFilter {
                 }
 
         // Bearer dsfdsfdsflksjdflsjdfdsjfdsfjsdjflksdjflksdjflksjdflkdsjflskdjflsdjflk
-        String token = authorizationHeader.replace( jwtConfig.getTokePrefix(), "" );
+        String token = authorizationHeader.replace( jwtConfig.getTokenPrefix(), "" );
 
             try {
 
@@ -67,7 +69,7 @@ public class JwtTokenVerifier  extends OncePerRequestFilter {
                 SecurityContextHolder.getContext().setAuthentication( authentication );
 
             }catch ( JwtException e ){
-                throw  new IllegalStateException( "Token eka waradii modas!!" );
+                throw new IllegalStateException(String.format("Token %s Cannot be Trusted!", token));
             }
 
 
