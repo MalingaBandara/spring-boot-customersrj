@@ -1,3 +1,4 @@
-# springBoot-pos System
-POS system -API
+# Spring Boot Customer Registration System
+
+-REST API
 
