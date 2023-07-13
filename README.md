@@ -1,3 +1,3 @@
 # springBoot-pos System
-POS system
+POS system -API
 
